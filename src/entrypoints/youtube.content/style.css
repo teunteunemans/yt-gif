@@ -1,1 +1,75 @@
-/* Empty placeholder - will be styled in Task 2 */
+/* YT-GIF Button Styles - YouTube-native appearance */
+
+:host {
+  display: inline-flex;
+  align-items: center;
+}
+
+.yt-gif-button {
+  /* Reset */
+  all: unset;
+  box-sizing: border-box;
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  height: 36px;
+
+  /* YouTube pill button style */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  cursor: pointer;
+
+  /* Typography */
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 36px;
+
+  /* Color - adapts to YouTube's dark theme */
+  color: #f1f1f1;
+
+  /* Transitions */
+  transition: background-color 0.1s ease;
+}
+
+.yt-gif-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.yt-gif-button:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.yt-gif-button:focus-visible {
+  outline: 2px solid #3ea6ff;
+  outline-offset: 2px;
+}
+
+.yt-gif-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.yt-gif-label {
+  white-space: nowrap;
+}
+
+/* Light theme support */
+@media (prefers-color-scheme: light) {
+  .yt-gif-button {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #0f0f0f;
+  }
+
+  .yt-gif-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .yt-gif-button:active {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
