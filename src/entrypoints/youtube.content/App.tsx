@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './style.css';
-import GifCreator, { type GifSettings } from './GifCreator';
+import GifCreator from './GifCreator';
 
 export default function App() {
   const [showCreator, setShowCreator] = useState(false);
@@ -14,11 +14,6 @@ export default function App() {
     }
     setVideoElement(video);
     setShowCreator(true);
-  };
-
-  const handleCreateGif = (settings: GifSettings) => {
-    console.log('YT-GIF: Creating GIF with settings:', settings);
-    // Plan 03-02 will implement actual encoding
   };
 
   const handleClose = () => {
@@ -37,7 +32,6 @@ export default function App() {
       {showCreator && videoElement && (
         <GifCreator
           videoElement={videoElement}
-          onCreateGif={handleCreateGif}
           onClose={handleClose}
         />
       )}
