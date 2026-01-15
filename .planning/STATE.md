@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-01-15 — Roadmap created
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-01-15 — Completed 01-01-PLAN.md
 
-Progress: ░░░░░░░░░░ 0%
+Progress: █░░░░░░░░░ 17%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 3 min
+- Total execution time: 3 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| — | — | — | — |
+| 1 | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 3 min
+- Trend: First plan
 
 ## Accumulated Context
 
@@ -40,7 +40,10 @@ Progress: ░░░░░░░░░░ 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-(None yet)
+| Phase | Decision | Rationale |
+|-------|----------|-----------|
+| 01-01 | srcDir: 'src' structure | Cleaner project organization per WXT docs |
+| 01-01 | Conditional gecko.id | Firefox requires id, Chrome doesn't |
 
 ### Deferred Issues
 
@@ -53,5 +56,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Roadmap created
+Stopped at: Completed 01-01-PLAN.md
 Resume file: None

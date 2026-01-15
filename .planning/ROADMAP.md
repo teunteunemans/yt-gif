@@ -14,7 +14,7 @@ None
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation** - WXT project setup with cross-browser config
+- [x] **Phase 1: Foundation** - WXT project setup with cross-browser config
 - [ ] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
 - [ ] **Phase 3: GIF Creation** - Time range UI and video-to-GIF conversion
 - [ ] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
@@ -29,7 +29,7 @@ None
 **Plans**: TBD
 
 Plans:
-- [ ] 01-01: WXT project scaffold with TypeScript and cross-browser config
+- [x] 01-01: WXT project scaffold with TypeScript and cross-browser config
 
 ### Phase 2: YouTube Integration
 **Goal**: Extension detects YouTube videos and injects "GIF it!" button into video toolbar
@@ -69,7 +69,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/1 | Not started | - |
+| 1. Foundation | 1/1 | Complete | 2026-01-15 |
 | 2. YouTube Integration | 0/1 | Not started | - |
 | 3. GIF Creation | 0/2 | Not started | - |
 | 4. Polish & Ship | 0/2 | Not started | - |
