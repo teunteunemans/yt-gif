@@ -1,0 +1,75 @@
+# Roadmap: YT-GIF
+
+## Overview
+
+Build a cross-browser extension that adds GIF creation capability to YouTube videos. Starting with project foundation and cross-browser setup, then YouTube page integration, followed by the core GIF creation engine, and finishing with polish and store submission.
+
+## Domain Expertise
+
+None
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+- [ ] **Phase 1: Foundation** - WXT project setup with cross-browser config
+- [ ] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
+- [ ] **Phase 3: GIF Creation** - Time range UI and video-to-GIF conversion
+- [ ] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
+
+## Phase Details
+
+### Phase 1: Foundation
+**Goal**: Working WXT extension scaffold that loads in both Firefox and Chrome
+**Depends on**: Nothing (first phase)
+**Research**: Likely (WXT framework, cross-browser manifest differences)
+**Research topics**: WXT project setup, manifest v2/v3 differences, Firefox vs Chrome extension API compatibility
+**Plans**: TBD
+
+Plans:
+- [ ] 01-01: WXT project scaffold with TypeScript and cross-browser config
+
+### Phase 2: YouTube Integration
+**Goal**: Extension detects YouTube videos and injects "GIF it!" button into video toolbar
+**Depends on**: Phase 1
+**Research**: Likely (YouTube page structure, content script injection)
+**Research topics**: YouTube video player DOM structure, SPA navigation handling, toolbar element injection
+**Plans**: TBD
+
+Plans:
+- [ ] 02-01: YouTube content script with video detection and button injection
+
+### Phase 3: GIF Creation
+**Goal**: Users can select time range and generate GIF from YouTube video
+**Depends on**: Phase 2
+**Research**: Likely (client-side GIF encoding library)
+**Research topics**: gif.js or alternatives, canvas video frame capture, performance optimization
+**Plans**: TBD
+
+Plans:
+- [ ] 03-01: Time range selection UI
+- [ ] 03-02: Video-to-GIF conversion engine
+
+### Phase 4: Polish & Ship
+**Goal**: Extension ready for Firefox Add-ons and Chrome Web Store submission
+**Depends on**: Phase 3
+**Research**: Unlikely (store submission is documented, internal polish)
+**Plans**: TBD
+
+Plans:
+- [ ] 04-01: Quality/size options and download flow
+- [ ] 04-02: Store assets and submission prep
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 → 2 → 3 → 4
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Foundation | 0/1 | Not started | - |
+| 2. YouTube Integration | 0/1 | Not started | - |
+| 3. GIF Creation | 0/2 | Not started | - |
+| 4. Polish & Ship | 0/2 | Not started | - |
