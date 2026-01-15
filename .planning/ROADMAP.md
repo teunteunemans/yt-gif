@@ -17,7 +17,7 @@ None
 - [x] **Phase 1: Foundation** - WXT project setup with cross-browser config
 - [x] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
 - [x] **Phase 3: GIF Creation** - Time range UI and video-to-GIF conversion
-- [ ] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
+- [x] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
 
 ## Phase Details
 
@@ -60,7 +60,7 @@ Plans:
 
 Plans:
 - [x] 04-01: Quality/size options and download flow
-- [ ] 04-02: Store assets and submission prep
+- [x] 04-02: Store assets and submission prep
 
 ## Progress
 
@@ -72,4 +72,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 1/1 | Complete | 2026-01-15 |
 | 2. YouTube Integration | 1/1 | Complete | 2026-01-15 |
 | 3. GIF Creation | 2/2 | Complete | 2026-01-15 |
-| 4. Polish & Ship | 1/2 | In progress | - |
+| 4. Polish & Ship | 2/2 | Complete | 2026-01-15 |
