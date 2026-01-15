@@ -18,6 +18,7 @@ None
 - [x] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
 - [x] **Phase 3: GIF Creation** - Time range UI and video-to-GIF conversion
 - [x] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
+- [ ] **Phase 4.1: UX Polish (INSERTED)** - Draggable modal, improved time controls, toolbar integration
 
 ## Phase Details
 
@@ -62,10 +63,30 @@ Plans:
 - [x] 04-01: Quality/size options and download flow
 - [x] 04-02: Store assets and submission prep
 
+### Phase 4.1: UX Polish (INSERTED)
+**Goal**: Improve modal UX with draggable positioning, better time controls, and toolbar integration
+**Depends on**: Phase 4
+**Research**: Unlikely (implementation polish)
+**Plans**: TBD
+
+Plans:
+- [ ] 04.1-01: Modal UX (styling, inline filename, time buttons, draggable)
+- [ ] 04.1-02: External interactions (click-to-set-time, toolbar popup)
+
+**Details:**
+Fixes discovered during UAT:
+1. Remove GIF button margin-top (visual alignment fix)
+2. Red download button (matches branding)
+3. Draggable modal without background darkening
+4. Inline filename input (same view as quality settings)
+5. Click video to set start time
+6. Time adjustment buttons (+10s, +1s, +1 frame and minus variants)
+7. Toolbar popup button opens GIF menu instead of counter
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -73,3 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 2. YouTube Integration | 1/1 | Complete | 2026-01-15 |
 | 3. GIF Creation | 2/2 | Complete | 2026-01-15 |
 | 4. Polish & Ship | 2/2 | Complete | 2026-01-15 |
+| 4.1 UX Polish (INSERTED) | 0/2 | Not started | - |

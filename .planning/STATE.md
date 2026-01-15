@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-15)
 
 **Core value:** Simple, one-click GIF creation from YouTube videos directly in the browser.
-**Current focus:** Milestone Complete — Ready for Store Submission
+**Current focus:** Phase 4.1 UX Polish (inserted for fixes before v1.0 release)
 
 ## Current Position
 
-Phase: 4 of 4 (Polish & Ship)
-Plan: 2 of 2 in current phase
-Status: Milestone complete
-Last activity: 2026-01-15 — Completed 04-02-PLAN.md
+Phase: 4.1 of 4.1 (UX Polish - INSERTED)
+Plan: 0 of 2 in current phase
+Status: Planned, ready for execution
+Last activity: 2026-01-15 — Created 2 plans for Phase 4.1
 
-Progress: ██████████ 100%
+Progress: ████████░░ 86%
 
 ## Performance Metrics
 
@@ -58,6 +58,10 @@ Recent decisions affecting current work:
 | 04-01 | Check activeElement for Enter key | Prevents shortcut conflicts with input focus |
 | 04-02 | Red/white GIF icon design | Simple, recognizable at all sizes |
 | 04-02 | Icons in public/assets/ | WXT convention for static assets |
+
+### Roadmap Evolution
+
+- Phase 4.1 inserted after Phase 4: UX Polish (URGENT) - fixes discovered during UAT
 
 ### Deferred Issues
 
