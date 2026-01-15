@@ -160,10 +160,18 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
       if (e.key === 'Escape' && encodingState !== 'encoding') {
         onClose();
       }
+      // Enter triggers Create GIF from idle state (unless user is typing in an input)
+      if (e.key === 'Enter' && encodingState === 'idle') {
+        const activeElement = document.activeElement;
+        const isInputFocused = activeElement?.tagName === 'INPUT' || activeElement?.tagName === 'SELECT';
+        if (!isInputFocused) {
+          handleCreate();
+        }
+      }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose, encodingState]);
+  }, [onClose, encodingState, handleCreate]);
 
   const isLargeFile = resultBlob && resultBlob.size > 10 * 1024 * 1024;
 
