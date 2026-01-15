@@ -81,21 +81,26 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: transparent;
+  pointer-events: none;
   z-index: 9999;
   font-family: 'Roboto', 'Arial', sans-serif;
 }
 
 .gif-creator-modal {
+  position: fixed;
   background-color: #212121;
   border-radius: 8px;
-  width: 100%;
-  max-width: 400px;
-  margin: 16px;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  border: 1px solid #383838;
+}
+
+.gif-creator-modal-dragging {
+  user-select: none;
+  cursor: move;
 }
 
 .gif-creator-header {
@@ -104,6 +109,10 @@
   justify-content: space-between;
   padding: 16px 20px;
   border-bottom: 1px solid #383838;
+}
+
+.gif-creator-header-draggable {
+  cursor: move;
 }
 
 .gif-creator-title {

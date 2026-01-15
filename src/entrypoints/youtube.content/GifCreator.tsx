@@ -66,6 +66,15 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const objectUrlRef = useRef<string | null>(null);
 
+  // Draggable modal state
+  const [position, setPosition] = useState(() => ({
+    x: Math.max(0, window.innerWidth / 2 - 200),
+    y: Math.max(0, window.innerHeight / 2 - 250)
+  }));
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const modalRef = useRef<HTMLDivElement>(null);
+
   // Time adjustment helper
   const adjustTime = (timeStr: string, deltaSeconds: number, setTimeStr: (s: string) => void) => {
     const currentSeconds = parseTime(timeStr);
@@ -122,6 +131,41 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
       }
     };
   }, []);
+
+  // Drag event handlers
+  const handleDragStart = (e: React.MouseEvent) => {
+    if (encodingState === 'encoding') return;
+    setIsDragging(true);
+    const rect = modalRef.current?.getBoundingClientRect();
+    if (rect) {
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const newX = Math.max(0, Math.min(window.innerWidth - 400, e.clientX - dragOffset.x));
+      const newY = Math.max(0, Math.min(window.innerHeight - 100, e.clientY - dragOffset.y));
+      setPosition({ x: newX, y: newY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
 
   const handleCreate = async () => {
     const startTime = parseTime(startTimeStr);
@@ -197,12 +241,6 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     setError(null);
   };
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget && encodingState !== 'encoding') {
-      onClose();
-    }
-  };
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && encodingState !== 'encoding') {
@@ -224,9 +262,16 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
   const isLargeFile = resultBlob && resultBlob.size > 10 * 1024 * 1024;
 
   return (
-    <div className="gif-creator-overlay" onClick={handleOverlayClick}>
-      <div className="gif-creator-modal">
-        <div className="gif-creator-header">
+    <div className="gif-creator-overlay">
+      <div
+        ref={modalRef}
+        className={`gif-creator-modal ${isDragging ? 'gif-creator-modal-dragging' : ''}`}
+        style={{ left: position.x, top: position.y }}
+      >
+        <div
+          className={`gif-creator-header ${encodingState !== 'encoding' ? 'gif-creator-header-draggable' : ''}`}
+          onMouseDown={handleDragStart}
+        >
           <h2 className="gif-creator-title">
             {encodingState === 'complete' ? 'GIF Ready!' : 'Create GIF'}
           </h2>
