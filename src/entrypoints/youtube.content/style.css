@@ -73,3 +73,158 @@
     background-color: rgba(0, 0, 0, 0.15);
   }
 }
+
+/* GIF Creator Modal Styles */
+.gif-creator-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+.gif-creator-modal {
+  background-color: #212121;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+}
+
+.gif-creator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #383838;
+}
+
+.gif-creator-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.gif-creator-close {
+  all: unset;
+  cursor: pointer;
+  font-size: 24px;
+  color: #aaa;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.gif-creator-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.gif-creator-content {
+  padding: 20px;
+}
+
+.gif-creator-info {
+  margin-bottom: 16px;
+}
+
+.gif-creator-duration {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.gif-creator-field {
+  margin-bottom: 16px;
+}
+
+.gif-creator-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.gif-creator-input,
+.gif-creator-select {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #303030;
+  border: 1px solid #484848;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.gif-creator-input:focus,
+.gif-creator-select:focus {
+  border-color: #3ea6ff;
+  outline: none;
+}
+
+.gif-creator-select {
+  cursor: pointer;
+  appearance: menulist;
+}
+
+.gif-creator-error {
+  padding: 10px 12px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 4px;
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.gif-creator-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid #383838;
+  justify-content: flex-end;
+}
+
+.gif-creator-btn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background-color 0.1s ease, opacity 0.1s ease;
+}
+
+.gif-creator-btn-primary {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.gif-creator-btn-primary:hover {
+  background-color: #cc0000;
+}
+
+.gif-creator-btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.gif-creator-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
