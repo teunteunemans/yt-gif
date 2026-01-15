@@ -22,6 +22,15 @@ export default defineConfig({
         gecko: {
           id: 'yt-gif@kijkte.dev',
           strict_min_version: '109.0',
+          data_collection_permissions: {
+            personally_identifying_info: false,
+            health_info: false,
+            financial_info: false,
+            authentication_info: false,
+            location_data: false,
+            browsing_activity: false,
+            technical_and_interaction_data: false,
+          },
         },
       },
     }),
