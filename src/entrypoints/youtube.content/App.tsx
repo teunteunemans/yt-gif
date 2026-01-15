@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import './style.css';
 import GifCreator from './GifCreator';
 
@@ -6,7 +6,7 @@ export default function App() {
   const [showCreator, setShowCreator] = useState(false);
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     const video = document.querySelector('video.html5-main-video') as HTMLVideoElement | null;
     if (!video) {
       console.warn('YT-GIF: Video element not found');
@@ -14,23 +14,12 @@ export default function App() {
     }
     setVideoElement(video);
     setShowCreator(true);
-  }, []);
+  };
 
   const handleClose = () => {
     setShowCreator(false);
     setVideoElement(null);
   };
-
-  // Listen for messages from popup to open GIF creator
-  useEffect(() => {
-    const handleMessage = (message: { action: string }) => {
-      if (message.action === 'openGifCreator') {
-        handleClick();
-      }
-    };
-    browser.runtime.onMessage.addListener(handleMessage);
-    return () => browser.runtime.onMessage.removeListener(handleMessage);
-  }, [handleClick]);
 
   return (
     <>
