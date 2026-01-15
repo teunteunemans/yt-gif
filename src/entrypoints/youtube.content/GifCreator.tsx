@@ -23,15 +23,25 @@ function formatTimeForFilename(seconds: number): string {
 
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  // Show decimals for frame-level precision
+  const secsStr = secs < 10 ? `0${secs.toFixed(2)}` : secs.toFixed(2);
+  return `${mins.toString().padStart(2, '0')}:${secsStr}`;
+}
+
+function formatTimeDisplay(seconds: number): string {
+  // For display only - whole seconds
+  const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
 function parseTime(timeStr: string): number | null {
-  const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
+  // Match MM:SS or MM:SS.ss format
+  const match = timeStr.match(/^(\d{1,2}):(\d{2}(?:\.\d+)?)$/);
   if (!match) return null;
   const mins = parseInt(match[1], 10);
-  const secs = parseInt(match[2], 10);
+  const secs = parseFloat(match[2]);
   if (secs >= 60) return null;
   return mins * 60 + secs;
 }
@@ -68,12 +78,15 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
 
   // Draggable modal state
   const [position, setPosition] = useState(() => ({
-    x: Math.max(0, window.innerWidth / 2 - 200),
-    y: Math.max(0, window.innerHeight / 2 - 250)
+    x: Math.max(0, window.innerWidth / 2 - 200), // Center horizontally
+    y: Math.max(0, window.innerHeight / 2 - 250) // Center vertically
   }));
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // Track which time field is active (for timeline clicks)
+  const [activeTimeField, setActiveTimeField] = useState<'start' | 'end'>('start');
 
   // Time adjustment helper
   const adjustTime = (timeStr: string, deltaSeconds: number, setTimeStr: (s: string) => void) => {
@@ -112,6 +125,9 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     const newTimeStr = formatTime(newSeconds);
     setStartTimeStr(newTimeStr);
     updateFilename(newTimeStr, endTimeStr);
+    // Seek video to the new time
+    videoElement.currentTime = newSeconds;
+    setActiveTimeField('start');
   };
 
   const adjustEndTime = (delta: number) => {
@@ -121,6 +137,19 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     const newTimeStr = formatTime(newSeconds);
     setEndTimeStr(newTimeStr);
     updateFilename(startTimeStr, newTimeStr);
+    // Seek video to the new time
+    videoElement.currentTime = newSeconds;
+    setActiveTimeField('end');
+  };
+
+  // Stop keyboard events from bubbling to YouTube (prevents space=pause, k=pause, etc.)
+  const stopPropagation = (e: React.KeyboardEvent) => {
+    e.stopPropagation();
+  };
+
+  // Stop ALL keyboard events on the modal from reaching YouTube
+  const stopAllKeys = (e: React.KeyboardEvent) => {
+    e.stopPropagation();
   };
 
   // Clean up object URL on unmount or when creating new GIF
@@ -167,30 +196,88 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     };
   }, [isDragging, dragOffset]);
 
-  // Click video to set start time
+  // Click video to set time based on active field
   useEffect(() => {
     if (encodingState !== 'idle') return;
 
     const handleVideoClick = () => {
-      const newStart = videoElement.currentTime;
-      const newStartStr = formatTime(newStart);
-      setStartTimeStr(newStartStr);
+      const clickedTime = videoElement.currentTime;
+      const clickedTimeStr = formatTime(clickedTime);
 
-      // Adjust end time if new start is >= current end
-      const currentEnd = parseTime(endTimeStr);
-      if (currentEnd !== null && newStart >= currentEnd) {
-        const newEnd = Math.min(newStart + 3, duration);
-        const newEndStr = formatTime(newEnd);
-        setEndTimeStr(newEndStr);
-        updateFilename(newStartStr, newEndStr);
+      if (activeTimeField === 'start') {
+        setStartTimeStr(clickedTimeStr);
+        // Adjust end time if new start is >= current end
+        const currentEnd = parseTime(endTimeStr);
+        if (currentEnd !== null && clickedTime >= currentEnd) {
+          const newEnd = Math.min(clickedTime + 3, duration);
+          const newEndStr = formatTime(newEnd);
+          setEndTimeStr(newEndStr);
+          updateFilename(clickedTimeStr, newEndStr);
+        } else {
+          updateFilename(clickedTimeStr, endTimeStr);
+        }
       } else {
-        updateFilename(newStartStr, endTimeStr);
+        // Setting end time
+        setEndTimeStr(clickedTimeStr);
+        // Adjust start time if new end is <= current start
+        const currentStart = parseTime(startTimeStr);
+        if (currentStart !== null && clickedTime <= currentStart) {
+          const newStart = Math.max(0, clickedTime - 3);
+          const newStartStr = formatTime(newStart);
+          setStartTimeStr(newStartStr);
+          updateFilename(newStartStr, clickedTimeStr);
+        } else {
+          updateFilename(startTimeStr, clickedTimeStr);
+        }
       }
     };
 
     videoElement.addEventListener('click', handleVideoClick);
     return () => videoElement.removeEventListener('click', handleVideoClick);
-  }, [videoElement, encodingState, endTimeStr, duration]);
+  }, [videoElement, encodingState, activeTimeField, startTimeStr, endTimeStr, duration]);
+
+  // Listen for YouTube progress bar clicks
+  useEffect(() => {
+    if (encodingState !== 'idle') return;
+
+    const progressBar = document.querySelector('.ytp-progress-bar');
+    if (!progressBar) return;
+
+    const handleProgressClick = () => {
+      // Small delay to let YouTube update the video time first
+      setTimeout(() => {
+        const clickedTime = videoElement.currentTime;
+        const clickedTimeStr = formatTime(clickedTime);
+
+        if (activeTimeField === 'start') {
+          setStartTimeStr(clickedTimeStr);
+          const currentEnd = parseTime(endTimeStr);
+          if (currentEnd !== null && clickedTime >= currentEnd) {
+            const newEnd = Math.min(clickedTime + 3, duration);
+            const newEndStr = formatTime(newEnd);
+            setEndTimeStr(newEndStr);
+            updateFilename(clickedTimeStr, newEndStr);
+          } else {
+            updateFilename(clickedTimeStr, endTimeStr);
+          }
+        } else {
+          setEndTimeStr(clickedTimeStr);
+          const currentStart = parseTime(startTimeStr);
+          if (currentStart !== null && clickedTime <= currentStart) {
+            const newStart = Math.max(0, clickedTime - 3);
+            const newStartStr = formatTime(newStart);
+            setStartTimeStr(newStartStr);
+            updateFilename(newStartStr, clickedTimeStr);
+          } else {
+            updateFilename(startTimeStr, clickedTimeStr);
+          }
+        }
+      }, 50);
+    };
+
+    progressBar.addEventListener('click', handleProgressClick);
+    return () => progressBar.removeEventListener('click', handleProgressClick);
+  }, [videoElement, encodingState, activeTimeField, startTimeStr, endTimeStr, duration]);
 
   const handleCreate = async () => {
     const startTime = parseTime(startTimeStr);
@@ -292,6 +379,9 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
         ref={modalRef}
         className={`gif-creator-modal ${isDragging ? 'gif-creator-modal-dragging' : ''}`}
         style={{ left: position.x, top: position.y }}
+        onKeyDown={stopAllKeys}
+        onKeyUp={stopAllKeys}
+        onKeyPress={stopAllKeys}
       >
         <div
           className={`gif-creator-header ${encodingState !== 'encoding' ? 'gif-creator-header-draggable' : ''}`}
@@ -314,8 +404,8 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                 <span className="gif-creator-duration">Video: {formatTime(duration)}</span>
               </div>
 
-              <div className="gif-creator-field">
-                <label className="gif-creator-label">Start Time (MM:SS)</label>
+              <div className={`gif-creator-field ${activeTimeField === 'start' ? 'gif-creator-field-active' : ''}`}>
+                <label className="gif-creator-label">Start Time (MM:SS) {activeTimeField === 'start' && '← active'}</label>
                 <div className="gif-creator-time-controls">
                   <button className="gif-creator-time-btn" onClick={() => adjustStartTime(-10)} title="-10 seconds">-10s</button>
                   <button className="gif-creator-time-btn" onClick={() => adjustStartTime(-1)} title="-1 second">-1s</button>
@@ -325,6 +415,8 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                     className="gif-creator-input"
                     value={startTimeStr}
                     onChange={(e) => handleStartTimeChange(e.target.value)}
+                    onFocus={() => setActiveTimeField('start')}
+                    onKeyDown={stopPropagation}
                     placeholder="00:00"
                   />
                   <button className="gif-creator-time-btn" onClick={() => adjustStartTime(frameDuration)} title="+1 frame">+1f</button>
@@ -333,8 +425,8 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                 </div>
               </div>
 
-              <div className="gif-creator-field">
-                <label className="gif-creator-label">End Time (MM:SS)</label>
+              <div className={`gif-creator-field ${activeTimeField === 'end' ? 'gif-creator-field-active' : ''}`}>
+                <label className="gif-creator-label">End Time (MM:SS) {activeTimeField === 'end' && '← active'}</label>
                 <div className="gif-creator-time-controls">
                   <button className="gif-creator-time-btn" onClick={() => adjustEndTime(-10)} title="-10 seconds">-10s</button>
                   <button className="gif-creator-time-btn" onClick={() => adjustEndTime(-1)} title="-1 second">-1s</button>
@@ -344,6 +436,8 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                     className="gif-creator-input"
                     value={endTimeStr}
                     onChange={(e) => handleEndTimeChange(e.target.value)}
+                    onFocus={() => setActiveTimeField('end')}
+                    onKeyDown={stopPropagation}
                     placeholder="00:03"
                   />
                   <button className="gif-creator-time-btn" onClick={() => adjustEndTime(frameDuration)} title="+1 frame">+1f</button>
@@ -385,6 +479,7 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                   className="gif-creator-input"
                   value={filename}
                   onChange={(e) => setFilename(e.target.value)}
+                  onKeyDown={stopPropagation}
                   placeholder="yt-gif"
                 />
               </div>

@@ -3,6 +3,9 @@
 :host {
   display: inline-flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 36px;
 }
 
 .yt-gif-button {
@@ -16,6 +19,7 @@
   gap: 6px;
   padding: 0 16px;
   height: 36px;
+  margin: 0;
 
   /* YouTube pill button style */
   background-color: rgba(255, 255, 255, 0.1);
@@ -83,7 +87,7 @@
   bottom: 0;
   background-color: transparent;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 2147483647; /* Maximum z-index to stay above YouTube overlays */
   font-family: 'Roboto', 'Arial', sans-serif;
 }
 
@@ -96,6 +100,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
   pointer-events: auto;
   border: 1px solid #383838;
+  z-index: 2147483647; /* Maximum z-index on modal too */
 }
 
 .gif-creator-modal-dragging {
@@ -345,4 +350,13 @@
 
 .gif-creator-time-btn:active {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Active time field indicator */
+.gif-creator-field-active .gif-creator-label {
+  color: #3ea6ff;
+}
+
+.gif-creator-field-active .gif-creator-input {
+  border-color: #3ea6ff;
 }

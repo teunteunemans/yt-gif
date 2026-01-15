@@ -80,9 +80,12 @@ export default defineContentScript({
       anchor.id = BUTTON_CONTAINER_ID;
       anchor.style.display = 'inline-flex';
       anchor.style.alignItems = 'center';
+      anchor.style.height = '36px';
+      anchor.style.margin = '0';
+      anchor.style.padding = '0';
 
-      // Insert as first child of toolbar
-      toolbar.insertBefore(anchor, toolbar.firstChild);
+      // Insert at the end of toolbar (after like/dislike buttons)
+      toolbar.appendChild(anchor);
 
       try {
         const ui = await createShadowRootUi(ctx, {
