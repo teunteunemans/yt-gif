@@ -15,6 +15,12 @@ interface GifCreatorProps {
 
 type EncodingState = 'idle' | 'encoding' | 'complete' | 'error';
 
+function formatTimeForFilename(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}m${secs.toString().padStart(2, '0')}s`;
+}
+
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -48,6 +54,7 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
   const [fps, setFps] = useState(10);
   const [width, setWidth] = useState(480);
   const [error, setError] = useState<string | null>(null);
+  const [filename, setFilename] = useState('');
 
   // Encoding state
   const [encodingState, setEncodingState] = useState<EncodingState>('idle');
@@ -92,6 +99,10 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     setEncodingState('encoding');
     setProgress(0);
 
+    // Set default filename based on time range
+    const defaultFilename = `yt-gif-${formatTimeForFilename(startTime)}-${formatTimeForFilename(endTime)}`;
+    setFilename(defaultFilename);
+
     // Clean up previous object URL
     if (objectUrlRef.current) {
       URL.revokeObjectURL(objectUrlRef.current);
@@ -121,7 +132,9 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     if (!objectUrlRef.current) return;
     const a = document.createElement('a');
     a.href = objectUrlRef.current;
-    a.download = `youtube-gif-${Date.now()}.gif`;
+    // Use custom filename, ensure .gif extension
+    const downloadName = filename.endsWith('.gif') ? filename : `${filename}.gif`;
+    a.download = downloadName;
     a.click();
   };
 
@@ -246,6 +259,16 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
               />
               <div className="gif-creator-preview-info">
                 {resultBlob && <span>Size: {formatFileSize(resultBlob.size)}</span>}
+              </div>
+              <div className="gif-creator-field gif-creator-filename-field">
+                <label className="gif-creator-label">Filename</label>
+                <input
+                  type="text"
+                  className="gif-creator-input"
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                  placeholder="yt-gif"
+                />
               </div>
               {isLargeFile && (
                 <div className="gif-creator-warning">

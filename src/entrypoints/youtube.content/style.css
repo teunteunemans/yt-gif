@@ -287,6 +287,11 @@
   color: #aaa;
 }
 
+.gif-creator-filename-field {
+  margin-top: 16px;
+  text-align: left;
+}
+
 .gif-creator-warning {
   margin-top: 8px;
   padding: 8px 12px;
