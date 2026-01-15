@@ -30,3 +30,8 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Planning/development files (not for public repo)
+.planning/
+.claude/
+CLAUDE.md
