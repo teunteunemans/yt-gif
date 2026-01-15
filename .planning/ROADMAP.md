@@ -49,7 +49,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 03-01: Time range selection UI
+- [x] 03-01: Time range selection UI
 - [ ] 03-02: Video-to-GIF conversion engine
 
 ### Phase 4: Polish & Ship
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 1/1 | Complete | 2026-01-15 |
 | 2. YouTube Integration | 1/1 | Complete | 2026-01-15 |
-| 3. GIF Creation | 0/2 | Not started | - |
+| 3. GIF Creation | 1/2 | In progress | - |
 | 4. Polish & Ship | 0/2 | Not started | - |
