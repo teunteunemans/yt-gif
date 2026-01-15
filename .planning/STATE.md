@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 ## Current Position
 
 Phase: 4.1 of 4.1 (UX Polish - INSERTED)
-Plan: 0 of 2 in current phase
-Status: Planned, ready for execution
-Last activity: 2026-01-15 — Created 2 plans for Phase 4.1
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-15 — Completed 04.1-02-PLAN.md
 
-Progress: ████████░░ 86%
+Progress: ██████████ 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 8
 - Average duration: 4 min
-- Total execution time: 23 min
+- Total execution time: 31 min
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: ████████░░ 86%
 | 2 | 1 | 4 min | 4 min |
 | 3 | 2 | 5 min | 2.5 min |
 | 4 | 2 | 11 min | 5.5 min |
+| 4.1 | 2 | 8 min | 4 min |
 
 **Recent Trend:**
-- Last 6 plans: 3, 4, 2, 3, 2, 9 min
-- Trend: Stable (04-02 included user verification wait)
+- Last 8 plans: 3, 4, 2, 3, 2, 9, 5, 3 min
+- Trend: Stable
 
 ## Accumulated Context
 
@@ -58,6 +59,10 @@ Recent decisions affecting current work:
 | 04-01 | Check activeElement for Enter key | Prevents shortcut conflicts with input focus |
 | 04-02 | Red/white GIF icon design | Simple, recognizable at all sizes |
 | 04-02 | Icons in public/assets/ | WXT convention for static assets |
+| 04.1-01 | Draggable modal without overlay | Video remains visible while editing |
+| 04.1-01 | Time adjustment buttons | Precise frame-level control (±10s, ±1s, ±frame) |
+| 04.1-02 | Click video to set start time | Faster workflow than typing times |
+| 04.1-02 | Toolbar popup opens GIF creator | Alternative entry point via extension icon |
 
 ### Roadmap Evolution
 
@@ -74,5 +79,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-15
-Stopped at: Milestone complete — all 6 plans executed
+Stopped at: Milestone complete — all 8 plans executed (Phase 4.1 complete)
 Resume file: None
