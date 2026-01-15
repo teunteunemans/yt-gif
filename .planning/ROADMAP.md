@@ -59,7 +59,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 04-01: Quality/size options and download flow
+- [x] 04-01: Quality/size options and download flow
 - [ ] 04-02: Store assets and submission prep
 
 ## Progress
@@ -72,4 +72,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 1/1 | Complete | 2026-01-15 |
 | 2. YouTube Integration | 1/1 | Complete | 2026-01-15 |
 | 3. GIF Creation | 2/2 | Complete | 2026-01-15 |
-| 4. Polish & Ship | 0/2 | Not started | - |
+| 4. Polish & Ship | 1/2 | In progress | - |
