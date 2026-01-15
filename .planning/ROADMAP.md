@@ -15,7 +15,7 @@ None
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Foundation** - WXT project setup with cross-browser config
-- [ ] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
+- [x] **Phase 2: YouTube Integration** - Video detection and toolbar button injection
 - [ ] **Phase 3: GIF Creation** - Time range UI and video-to-GIF conversion
 - [ ] **Phase 4: Polish & Ship** - Quality options, download flow, store preparation
 
@@ -39,7 +39,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 02-01: YouTube content script with video detection and button injection
+- [x] 02-01: YouTube content script with video detection and button injection
 
 ### Phase 3: GIF Creation
 **Goal**: Users can select time range and generate GIF from YouTube video
@@ -70,6 +70,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 1/1 | Complete | 2026-01-15 |
-| 2. YouTube Integration | 0/1 | Not started | - |
+| 2. YouTube Integration | 1/1 | Complete | 2026-01-15 |
 | 3. GIF Creation | 0/2 | Not started | - |
 | 4. Polish & Ship | 0/2 | Not started | - |
