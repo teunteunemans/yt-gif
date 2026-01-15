@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Red rounded background (YouTube-ish) -->
+  <rect x="8" y="8" width="112" height="112" rx="16" ry="16" fill="#ff0000"/>
+
+  <!-- White "GIF" text -->
+  <text x="64" y="82"
+        font-family="Arial, sans-serif"
+        font-weight="bold"
+        font-size="48"
+        fill="white"
+        text-anchor="middle">GIF</text>
+</svg>
