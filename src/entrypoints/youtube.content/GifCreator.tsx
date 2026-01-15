@@ -167,6 +167,31 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     };
   }, [isDragging, dragOffset]);
 
+  // Click video to set start time
+  useEffect(() => {
+    if (encodingState !== 'idle') return;
+
+    const handleVideoClick = () => {
+      const newStart = videoElement.currentTime;
+      const newStartStr = formatTime(newStart);
+      setStartTimeStr(newStartStr);
+
+      // Adjust end time if new start is >= current end
+      const currentEnd = parseTime(endTimeStr);
+      if (currentEnd !== null && newStart >= currentEnd) {
+        const newEnd = Math.min(newStart + 3, duration);
+        const newEndStr = formatTime(newEnd);
+        setEndTimeStr(newEndStr);
+        updateFilename(newStartStr, newEndStr);
+      } else {
+        updateFilename(newStartStr, endTimeStr);
+      }
+    };
+
+    videoElement.addEventListener('click', handleVideoClick);
+    return () => videoElement.removeEventListener('click', handleVideoClick);
+  }, [videoElement, encodingState, endTimeStr, duration]);
+
   const handleCreate = async () => {
     const startTime = parseTime(startTimeStr);
     const endTime = parseTime(endTimeStr);
