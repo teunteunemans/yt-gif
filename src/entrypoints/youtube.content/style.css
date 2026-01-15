@@ -230,12 +230,12 @@
 }
 
 .gif-creator-btn-download {
-  background-color: #2e7d32;
+  background-color: #ff0000;
   color: #fff;
 }
 
 .gif-creator-btn-download:hover {
-  background-color: #1b5e20;
+  background-color: #cc0000;
 }
 
 /* Encoding state */
@@ -300,4 +300,40 @@
   border-radius: 4px;
   color: #ffb74d;
   font-size: 13px;
+}
+
+/* Time adjustment controls */
+.gif-creator-time-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gif-creator-time-controls .gif-creator-input {
+  flex: 1;
+  text-align: center;
+}
+
+.gif-creator-time-btn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 6px 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #aaa;
+  white-space: nowrap;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.gif-creator-time-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.gif-creator-time-btn:active {
+  background-color: rgba(255, 255, 255, 0.3);
 }

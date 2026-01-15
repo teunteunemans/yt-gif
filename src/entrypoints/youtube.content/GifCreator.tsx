@@ -54,13 +54,65 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
   const [fps, setFps] = useState(10);
   const [width, setWidth] = useState(480);
   const [error, setError] = useState<string | null>(null);
-  const [filename, setFilename] = useState('');
+  const [filename, setFilename] = useState(() => {
+    const startTime = currentTime;
+    const endTime = Math.min(currentTime + 3, duration);
+    return `yt-gif-${formatTimeForFilename(startTime)}-${formatTimeForFilename(endTime)}`;
+  });
 
   // Encoding state
   const [encodingState, setEncodingState] = useState<EncodingState>('idle');
   const [progress, setProgress] = useState(0);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const objectUrlRef = useRef<string | null>(null);
+
+  // Time adjustment helper
+  const adjustTime = (timeStr: string, deltaSeconds: number, setTimeStr: (s: string) => void) => {
+    const currentSeconds = parseTime(timeStr);
+    if (currentSeconds === null) return;
+    const newSeconds = Math.max(0, Math.min(duration, currentSeconds + deltaSeconds));
+    setTimeStr(formatTime(newSeconds));
+  };
+
+  // Frame duration based on fps
+  const frameDuration = 1 / fps;
+
+  // Update filename when times change
+  const updateFilename = (startStr: string, endStr: string) => {
+    const start = parseTime(startStr);
+    const end = parseTime(endStr);
+    if (start !== null && end !== null) {
+      setFilename(`yt-gif-${formatTimeForFilename(start)}-${formatTimeForFilename(end)}`);
+    }
+  };
+
+  const handleStartTimeChange = (value: string) => {
+    setStartTimeStr(value);
+    updateFilename(value, endTimeStr);
+  };
+
+  const handleEndTimeChange = (value: string) => {
+    setEndTimeStr(value);
+    updateFilename(startTimeStr, value);
+  };
+
+  const adjustStartTime = (delta: number) => {
+    const currentSeconds = parseTime(startTimeStr);
+    if (currentSeconds === null) return;
+    const newSeconds = Math.max(0, Math.min(duration, currentSeconds + delta));
+    const newTimeStr = formatTime(newSeconds);
+    setStartTimeStr(newTimeStr);
+    updateFilename(newTimeStr, endTimeStr);
+  };
+
+  const adjustEndTime = (delta: number) => {
+    const currentSeconds = parseTime(endTimeStr);
+    if (currentSeconds === null) return;
+    const newSeconds = Math.max(0, Math.min(duration, currentSeconds + delta));
+    const newTimeStr = formatTime(newSeconds);
+    setEndTimeStr(newTimeStr);
+    updateFilename(startTimeStr, newTimeStr);
+  };
 
   // Clean up object URL on unmount or when creating new GIF
   useEffect(() => {
@@ -98,10 +150,6 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
     setError(null);
     setEncodingState('encoding');
     setProgress(0);
-
-    // Set default filename based on time range
-    const defaultFilename = `yt-gif-${formatTimeForFilename(startTime)}-${formatTimeForFilename(endTime)}`;
-    setFilename(defaultFilename);
 
     // Clean up previous object URL
     if (objectUrlRef.current) {
@@ -198,24 +246,40 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
 
               <div className="gif-creator-field">
                 <label className="gif-creator-label">Start Time (MM:SS)</label>
-                <input
-                  type="text"
-                  className="gif-creator-input"
-                  value={startTimeStr}
-                  onChange={(e) => setStartTimeStr(e.target.value)}
-                  placeholder="00:00"
-                />
+                <div className="gif-creator-time-controls">
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(-10)} title="-10 seconds">-10s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(-1)} title="-1 second">-1s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(-frameDuration)} title="-1 frame">-1f</button>
+                  <input
+                    type="text"
+                    className="gif-creator-input"
+                    value={startTimeStr}
+                    onChange={(e) => handleStartTimeChange(e.target.value)}
+                    placeholder="00:00"
+                  />
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(frameDuration)} title="+1 frame">+1f</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(1)} title="+1 second">+1s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustStartTime(10)} title="+10 seconds">+10s</button>
+                </div>
               </div>
 
               <div className="gif-creator-field">
                 <label className="gif-creator-label">End Time (MM:SS)</label>
-                <input
-                  type="text"
-                  className="gif-creator-input"
-                  value={endTimeStr}
-                  onChange={(e) => setEndTimeStr(e.target.value)}
-                  placeholder="00:03"
-                />
+                <div className="gif-creator-time-controls">
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(-10)} title="-10 seconds">-10s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(-1)} title="-1 second">-1s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(-frameDuration)} title="-1 frame">-1f</button>
+                  <input
+                    type="text"
+                    className="gif-creator-input"
+                    value={endTimeStr}
+                    onChange={(e) => handleEndTimeChange(e.target.value)}
+                    placeholder="00:03"
+                  />
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(frameDuration)} title="+1 frame">+1f</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(1)} title="+1 second">+1s</button>
+                  <button className="gif-creator-time-btn" onClick={() => adjustEndTime(10)} title="+10 seconds">+10s</button>
+                </div>
               </div>
 
               <div className="gif-creator-field">
@@ -243,6 +307,17 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
                   <option value={640}>640px (large)</option>
                 </select>
               </div>
+
+              <div className="gif-creator-field">
+                <label className="gif-creator-label">Filename</label>
+                <input
+                  type="text"
+                  className="gif-creator-input"
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                  placeholder="yt-gif"
+                />
+              </div>
             </>
           )}
 
@@ -267,16 +342,7 @@ export default function GifCreator({ videoElement, onClose }: GifCreatorProps) {
               />
               <div className="gif-creator-preview-info">
                 {resultBlob && <span>Size: {formatFileSize(resultBlob.size)}</span>}
-              </div>
-              <div className="gif-creator-field gif-creator-filename-field">
-                <label className="gif-creator-label">Filename</label>
-                <input
-                  type="text"
-                  className="gif-creator-input"
-                  value={filename}
-                  onChange={(e) => setFilename(e.target.value)}
-                  placeholder="yt-gif"
-                />
+                <span> | {filename}.gif</span>
               </div>
               {isLargeFile && (
                 <div className="gif-creator-warning">
